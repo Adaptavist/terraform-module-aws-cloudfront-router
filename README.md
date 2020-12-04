@@ -5,8 +5,7 @@ A module which creates a CloudFront distribution which is used for routing reque
 ## Variables
 
 | Name                        | Description                                                                                     |
-| --------------------------- | ----------------------------------------------------------------------------------------------- |
-| aws_region                 | The region to create the CloudFront distribution in                                             |
+| --------------------------- | ----------------------------------------------------------------------------------------------- |                                         |
 | namespace | The namespace of the distribution |
 | stage | The stage of the distribution - (dev, staging etc). |
 | name | The name of the distribution |
