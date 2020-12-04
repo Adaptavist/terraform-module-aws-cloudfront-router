@@ -34,7 +34,7 @@
       [
         "@semantic-release/exec",
         {
-          "successCmd": "git push --mirror git@github.com:Adaptavist/terraform-module-aws-secret.git"
+          "successCmd": "git push --mirror git@github.com:Adaptavist/terraform-module-aws-cloudfront-router.git"
         }
       ]
     ]
