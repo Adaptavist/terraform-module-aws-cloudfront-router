@@ -49,8 +49,8 @@ resource "random_string" "random" {
 
 module cf_distro {
   source = "../../"
-    
-  aliases    = [local.domain]
+
+  aliases = [local.domain]
 
   namespace = local.namespace
   stage     = local.stage
