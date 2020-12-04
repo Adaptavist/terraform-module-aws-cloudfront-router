@@ -1,12 +1,3 @@
-locals {
-
-  stageTag = {
-    "Avst:Stage:Name" = var.stage
-  }
-
-  finalTags = merge(var.tags, local.stageTag)
-}
-
 module "labels" {
   source  = "cloudposse/label/terraform"
   version = "0.5.0"
@@ -14,7 +5,7 @@ module "labels" {
   namespace = var.namespace
   stage     = var.stage
   name      = var.name
-  tags      = local.finalTags
+  tags      = var.tags
 }
 
 resource "aws_cloudfront_distribution" "this" {

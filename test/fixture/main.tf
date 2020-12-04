@@ -28,6 +28,7 @@ locals {
     "Avst:CostCenter" : "foo"
     "Avst:Project" : "foo"
     "Avst:Stage:Type" : "sandbox"
+    "Avst:Stage:Name" : "sandbox"
   }
 }
 
