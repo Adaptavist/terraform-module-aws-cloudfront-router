@@ -49,8 +49,7 @@ resource "random_string" "random" {
 
 module cf_distro {
   source = "../../"
-
-  aws_region = var.aws_region
+    
   aliases    = [local.domain]
 
   namespace = local.namespace
