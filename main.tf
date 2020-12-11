@@ -20,7 +20,7 @@ resource "aws_cloudfront_distribution" "this" {
         http_port              = 80
         https_port             = 443
         origin_protocol_policy = "https-only"
-        origin_ssl_protocols   = ["SSLv3", "TLSv1.2"]
+        origin_ssl_protocols   = ["SSLv3", "TLSv1.3"]
       }
     }
   }
@@ -97,7 +97,7 @@ resource "aws_cloudfront_distribution" "this" {
 
   viewer_certificate {
     acm_certificate_arn      = var.acm_cert_arn
-    minimum_protocol_version = "TLSv1.2_2018"
+    minimum_protocol_version = "TLSv1.2_2019"
     ssl_support_method       = "sni-only"
   }
 }
