@@ -4,14 +4,15 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"net/http"
+	"os"
 	"strings"
 	"testing"
 	"time"
-	"os"
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
 )
+
 var seededRand = rand.New(rand.NewSource(time.Now().UnixNano()))
 var assumeRoleArn = os.Getenv("SANDBOX_ORG_ROLE_ARN")
 
@@ -34,8 +35,8 @@ func TestModule(t *testing.T) {
 		NoColor: true,
 		Lock:    true,
 		BackendConfig: map[string]interface{}{
-			"key":            "modules/module-aws-cloudfront-router/tests/fixures/default/" + postfix,
-			"role_arn":       assumeRoleArn,
+			"key":      "modules/module-aws-cloudfront-router/tests/fixures/default/" + postfix,
+			"role_arn": assumeRoleArn,
 		},
 		TerraformDir: "fixture",
 	}
@@ -57,9 +58,9 @@ func TestModule(t *testing.T) {
 	publicDomainName := outputs["public_domain_name"].(string)
 
 	// Hit root and origins, confirm HTML returned belongs to correct domain.
-	testBody("<title>BBC", "http://"+publicDomainName, t)
-	testBody("<title>Technology - BBC", "http://"+publicDomainName+"/news/technology", t)
-	testBody("<title>ScriptRunner", "http://"+publicDomainName+"/latest/index.html", t)
+	testBody("<title>ScriptRunner", "https://"+publicDomainName, t)
+	testBody("sr-logo.png", "https://"+publicDomainName+"/public/js/manifest.json", t)
+	testBody("\"baseUrl\":\"https://scriptrunner.connect.adaptavist.com\"", "http://"+publicDomainName+"/sr-dispatcher/jira/atlassian-connect.json", t)
 }
 
 func testBody(testValue string, url string, t *testing.T) {
@@ -68,7 +69,7 @@ func testBody(testValue string, url string, t *testing.T) {
 
 	assert.Nil(t, err, "There should not have been an error getting the url "+url)
 	assert.Equal(t, resp.Status, "200 OK", "There should have been a HTTP 200 getting the url "+url)
-	
+
 	bodyBytes, err := ioutil.ReadAll(resp.Body)
 
 	assert.Nil(t, err, "There should not of been an error reading response body")
