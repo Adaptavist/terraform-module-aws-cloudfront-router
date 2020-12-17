@@ -48,19 +48,19 @@ resource "random_string" "random" {
   upper   = false
 }
 
-module cf_distro {
+module "cf_distro" {
   source = "../../"
 
   aliases = [local.domain]
 
-  namespace = local.namespace
-  stage     = local.stage
-  name      = local.name
-  tags      = local.tags
+  namespace   = local.namespace
+  stage       = local.stage
+  name        = local.name
+  tags        = local.tags
   forward_all = false
 
-  acm_cert_arn = data.aws_acm_certificate.cert.arn
-  domain = local.domain
+  acm_cert_arn  = data.aws_acm_certificate.cert.arn
+  domain        = local.domain
   r53_zone_name = local.tld
 
   default_cache_behavior = {

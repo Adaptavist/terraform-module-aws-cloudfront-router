@@ -15,7 +15,7 @@ data "aws_route53_zone" "public_zone" {
 
 resource "aws_cloudfront_distribution" "this" {
 
-  dynamic origin {
+  dynamic "origin" {
     for_each = var.origin_mappings
     content {
       domain_name = origin.value.domain_name
@@ -43,10 +43,10 @@ resource "aws_cloudfront_distribution" "this" {
 
     viewer_protocol_policy = var.viewer_protocol_policy
 
-    dynamic forwarded_values {
+    dynamic "forwarded_values" {
       for_each = var.forward_all ? [1] : []
       content {
-        headers = ["*"]
+        headers      = ["*"]
         query_string = true
         cookies {
           forward = "all"
@@ -54,7 +54,7 @@ resource "aws_cloudfront_distribution" "this" {
       }
     }
 
-    dynamic forwarded_values {
+    dynamic "forwarded_values" {
       for_each = var.forward_all ? [] : [1]
       content {
         query_string = false
@@ -73,7 +73,7 @@ resource "aws_cloudfront_distribution" "this" {
 
   }
 
-  dynamic ordered_cache_behavior {
+  dynamic "ordered_cache_behavior" {
     for_each = var.origin_mappings
     content {
 
@@ -81,26 +81,26 @@ resource "aws_cloudfront_distribution" "this" {
       allowed_methods  = ordered_cache_behavior.value.allowed_methods
       target_origin_id = ordered_cache_behavior.value.origin_id
 
-        dynamic forwarded_values {
-          for_each = var.forward_all ? [1] : []
-          content {
-            headers = ["*"]
-            query_string = true
-            cookies {
-              forward = "all"
-            }
+      dynamic "forwarded_values" {
+        for_each = var.forward_all ? [1] : []
+        content {
+          headers      = ["*"]
+          query_string = true
+          cookies {
+            forward = "all"
           }
         }
+      }
 
-        dynamic forwarded_values {
-          for_each = var.forward_all ? [] : [1]
-          content {
-            query_string = false
-            cookies {
-              forward = "none"
-            }
+      dynamic "forwarded_values" {
+        for_each = var.forward_all ? [] : [1]
+        content {
+          query_string = false
+          cookies {
+            forward = "none"
           }
         }
+      }
 
 
       compress               = true
