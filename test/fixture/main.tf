@@ -48,49 +48,46 @@ resource "random_string" "random" {
   upper   = false
 }
 
-module cf_distro {
+module "cf_distro" {
   source = "../../"
 
   aliases = [local.domain]
 
-  namespace = local.namespace
-  stage     = local.stage
-  name      = local.name
-  tags      = local.tags
+  namespace   = local.namespace
+  stage       = local.stage
+  name        = local.name
+  tags        = local.tags
+  forward_all = false
 
-  acm_cert_arn = data.aws_acm_certificate.cert.arn
+  acm_cert_arn  = data.aws_acm_certificate.cert.arn
+  domain        = local.domain
+  r53_zone_name = local.tld
 
   default_cache_behavior = {
-    origin_id       = "bbc"
-    domain_name     = "www.bbc.co.uk"
+    origin_id       = "docs"
+    domain_name     = "scriptrunner.adaptavist.com"
     allowed_methods = local.default_allowed_methods
   }
-
   origin_mappings = {
     scriptrunner = {
       origin_id       = "scriptrunner"
+      domain_name     = "scriptrunner.connect.adaptavist.com"
+      path_pattern    = "/sr-dispatcher/jira/*"
+      allowed_methods = local.default_allowed_methods
+    }
+    docs = {
+      origin_id       = "docs"
       domain_name     = "scriptrunner.adaptavist.com"
       path_pattern    = "/latest/*"
       allowed_methods = local.default_allowed_methods
     }
-    bbc = {
-      origin_id       = "bbc"
-      domain_name     = "www.bbc.co.uk"
-      path_pattern    = "/news/*"
+    assets = {
+      origin_id       = "sr-assets"
+      domain_name     = "assets.sr-cloud.connect.adaptavistlabs.com"
+      path_pattern    = "/public/*"
       allowed_methods = local.default_allowed_methods
     }
-
   }
 }
 
-resource "aws_route53_record" "www" {
-  zone_id = data.aws_route53_zone.zone.zone_id
-  name    = local.domain
-  type    = "A"
 
-  alias {
-    name                   = module.cf_distro.cf_domain_name
-    zone_id                = module.cf_distro.cf_hosted_zone_id
-    evaluate_target_health = false
-  }
-}

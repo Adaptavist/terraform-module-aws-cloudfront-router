@@ -8,9 +8,14 @@ module "labels" {
   tags      = var.tags
 }
 
+data "aws_route53_zone" "public_zone" {
+  name         = var.r53_zone_name
+  private_zone = false
+}
+
 resource "aws_cloudfront_distribution" "this" {
 
-  dynamic origin {
+  dynamic "origin" {
     for_each = var.origin_mappings
     content {
       domain_name = origin.value.domain_name
@@ -38,15 +43,28 @@ resource "aws_cloudfront_distribution" "this" {
 
     viewer_protocol_policy = var.viewer_protocol_policy
 
-    forwarded_values {
-      query_string = true
-
-      cookies {
-        forward = "all"
+    dynamic "forwarded_values" {
+      for_each = var.forward_all ? [1] : []
+      content {
+        headers      = ["*"]
+        query_string = true
+        cookies {
+          forward = "all"
+        }
       }
     }
 
-    // We are using cloudfront for routing only, we dont want to cache anything. 
+    dynamic "forwarded_values" {
+      for_each = var.forward_all ? [] : [1]
+      content {
+        query_string = false
+        cookies {
+          forward = "none"
+        }
+      }
+    }
+
+    // We are using cloudfront for routing only, we dont want to cache anything.
     min_ttl     = 0
     default_ttl = 0
     max_ttl     = 0
@@ -55,7 +73,7 @@ resource "aws_cloudfront_distribution" "this" {
 
   }
 
-  dynamic ordered_cache_behavior {
+  dynamic "ordered_cache_behavior" {
     for_each = var.origin_mappings
     content {
 
@@ -63,19 +81,32 @@ resource "aws_cloudfront_distribution" "this" {
       allowed_methods  = ordered_cache_behavior.value.allowed_methods
       target_origin_id = ordered_cache_behavior.value.origin_id
 
-      forwarded_values {
-        query_string = true
-
-
-        cookies {
-          forward = "all"
+      dynamic "forwarded_values" {
+        for_each = var.forward_all ? [1] : []
+        content {
+          headers      = ["*"]
+          query_string = true
+          cookies {
+            forward = "all"
+          }
         }
       }
+
+      dynamic "forwarded_values" {
+        for_each = var.forward_all ? [] : [1]
+        content {
+          query_string = false
+          cookies {
+            forward = "none"
+          }
+        }
+      }
+
 
       compress               = true
       viewer_protocol_policy = var.viewer_protocol_policy
 
-      // We are using cloudfront for routing only, we dont want to cache anything. 
+      // We are using cloudfront for routing only, we dont want to cache anything.
       min_ttl     = 0
       default_ttl = 0
       max_ttl     = 0
@@ -102,3 +133,14 @@ resource "aws_cloudfront_distribution" "this" {
   }
 }
 
+resource "aws_route53_record" "this" {
+  zone_id = data.aws_route53_zone.public_zone.zone_id
+  name    = var.domain
+  type    = "A"
+
+  alias {
+    name                   = aws_cloudfront_distribution.this.domain_name
+    zone_id                = aws_cloudfront_distribution.this.hosted_zone_id
+    evaluate_target_health = false
+  }
+}

@@ -11,7 +11,7 @@ variable "name" {
 }
 
 variable "tags" {
-  type = map
+  type = map(any)
 }
 
 variable "origin_mappings" {
@@ -22,6 +22,7 @@ variable "origin_mappings" {
     allowed_methods = list(string)
   }))
 }
+
 
 variable "default_cache_behavior" {
   type = object({
@@ -52,4 +53,20 @@ variable "origin_protocol_policy" {
 
 variable "acm_cert_arn" {
   type = string
+}
+
+variable "forward_all" {
+  type        = bool
+  default     = true
+  description = "When enabled, forwards cookies, query strings and headers to origins"
+}
+
+variable "r53_zone_name" {
+  type        = string
+  description = "Name of the public hosted zone, this is used for creating the A record for the CloudFront distro."
+}
+
+variable "domain" {
+  type        = string
+  description = "Domain name to use for the CloudFront distribution."
 }
