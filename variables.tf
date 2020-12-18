@@ -11,7 +11,7 @@ variable "name" {
 }
 
 variable "tags" {
-  type = map
+  type = map(any)
 }
 
 variable "origin_mappings" {
@@ -56,8 +56,8 @@ variable "acm_cert_arn" {
 }
 
 variable "forward_all" {
-  type = bool
-  default = true
+  type        = bool
+  default     = true
   description = "When enabled, forwards cookies, query strings and headers to origins"
 }
 
