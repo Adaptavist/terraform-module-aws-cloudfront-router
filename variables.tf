@@ -1,18 +1,24 @@
+// TAGGING
 variable "namespace" {
-  type = string
+  type        = string
+  description = "The namespace of the distribution."
 }
 
 variable "stage" {
-  type = string
+  type        = string
+  description = "The stage of the distribution - (dev, staging etc)."
 }
 
 variable "name" {
-  type = string
+  type        = string
+  description = "The name of the distribution."
 }
 
 variable "tags" {
-  type = map(any)
+  type        = map(any)
+  description = "Tags applied to the distribution, these should follow what is defined [here](https://github.com/Adaptavist/terraform-compliance/blob/master/features/tags.feature)."
 }
+
 
 variable "origin_mappings" {
   type = map(object({
@@ -21,6 +27,7 @@ variable "origin_mappings" {
     path_pattern    = string
     allowed_methods = list(string)
   }))
+  description = "Origin mappings, origins are matched based on path"
 }
 
 
@@ -30,29 +37,35 @@ variable "default_cache_behavior" {
     domain_name     = string
     allowed_methods = list(string)
   })
+  description = "Default behaviour of the disctrobution when a path has not been matched"
 }
 
 variable "aliases" {
-  type = list(string)
+  type        = list(string)
+  description = "Aliases used by the CloudFront distribution."
 }
 
 variable "default_root_object" {
-  type    = string
-  default = "index.html"
+  type        = string
+  default     = "index.html"
+  description = "Default root object for the CloudFront distribution, this defaults to 'index.html'."
 }
 
 variable "viewer_protocol_policy" {
-  type    = string
-  default = "redirect-to-https"
+  type        = string
+  default     = "redirect-to-https"
+  description = "Default viewer_protocol_policy for the CloudFront distribution, this defaults to 'redirect-to-https'."
 }
 
 variable "origin_protocol_policy" {
-  type    = string
-  default = "https-only"
+  type        = string
+  default     = "https-only"
+  description = "Default origin_protocol_policy for the CloudFront distribution, this defaults to 'https-only'."
 }
 
 variable "acm_cert_arn" {
-  type = string
+  type        = string
+  description = "AWS ACM certificate ARN to use for the CloudFront distribution."
 }
 
 variable "forward_all" {
