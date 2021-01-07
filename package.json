@@ -13,7 +13,8 @@
   },
   "scripts": {
     "check": "terraform fmt -check -recursive -diff",
-    "format": "terraform fmt -recursive -diff"
+    "format": "terraform fmt -recursive -diff",
+    "docs": "terraform-docs markdown ."
   },
   "husky": {
     "skipCI": true,

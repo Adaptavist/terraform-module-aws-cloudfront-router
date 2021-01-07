@@ -7,7 +7,7 @@ A module which creates a CloudFront distribution which is used for routing reque
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:-----:|
 | acm\_cert\_arn | AWS ACM certificate ARN to use for the CloudFront distribution. | `string` | n/a | yes |
-| aliases | Aliases used by the CloudFront distribution. | `list(string)` | n/a | yes |
+| aliases | Aliases used by the CloudFront distribution. | `list(string)` | n/a | no |
 | default\_cache\_behavior | Default behaviour of the disctrobution when a path has not been matched | <pre>object({<br>    origin_id       = string<br>    domain_name     = string<br>    allowed_methods = list(string)<br>  })</pre> | n/a | yes |
 | default\_root\_object | Default root object for the CloudFront distribution, this defaults to 'index.html'. | `string` | `"index.html"` | no |
 | domain | Domain name to use for the CloudFront distribution. | `string` | n/a | yes |
