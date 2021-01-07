@@ -1,3 +1,10 @@
+## [1.1.2](http://bitbucket.org/adaptavistlabs/module-aws-cloudfront-router/compare/v1.1.1...v1.1.2) (2021-01-07)
+
+
+### Bug Fixes
+
+* **cf:** making aliases optional ([bf21125](http://bitbucket.org/adaptavistlabs/module-aws-cloudfront-router/commits/bf2112591c2f01928eeaabb8ae83972345012076))
+
 ## [1.1.1](http://bitbucket.org/adaptavistlabs/module-aws-cloudfront-router/compare/v1.1.0...v1.1.1) (2020-12-18)
 
 
