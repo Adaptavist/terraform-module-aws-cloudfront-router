@@ -35,7 +35,7 @@ resource "aws_cloudfront_distribution" "this" {
   comment             = "Cloudfront distribution for ${module.labels.id}"
   default_root_object = var.default_root_object
 
-  aliases = var.aliases
+  aliases = length(var.aliases) > 0 ? var.aliases : [var.domain]
 
   dynamic "logging_config" {
     for_each = var.enable_access_logs ? [1] : []
