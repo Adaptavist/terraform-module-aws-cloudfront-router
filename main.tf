@@ -37,6 +37,15 @@ resource "aws_cloudfront_distribution" "this" {
 
   aliases = var.aliases
 
+  dynamic "logging_config" {
+    for_each = var.enable_access_logs ? [1] : []
+    content {
+      include_cookies = var.log_cookies
+      bucket          = var.access_logs_bucket
+      prefix          = var.domain
+    }
+  }
+
   default_cache_behavior {
     allowed_methods  = var.default_cache_behavior.allowed_methods
     target_origin_id = var.default_cache_behavior.origin_id
