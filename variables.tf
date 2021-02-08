@@ -84,3 +84,21 @@ variable "domain" {
   type        = string
   description = "Domain name to use for the CloudFront distribution."
 }
+
+
+variable "enable_access_logs" {
+  type        = bool
+  default     = false
+  description = "Should accesses to the CloudFront distribution be logged, defaults to false."
+}
+
+variable "log_cookies" {
+  type        = bool
+  default     = false
+  description = "If access logs are enabled, are cookies logged."
+}
+variable "access_logs_bucket" {
+  type        = string
+  default     = ""
+  description = "If access logs are enabled the bucket the logs should go into, defaults to false."
+}

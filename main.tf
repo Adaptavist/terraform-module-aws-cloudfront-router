@@ -64,6 +64,15 @@ resource "aws_cloudfront_distribution" "this" {
       }
     }
 
+    dynamic "logging_config" {
+      for_each = var.enable_access_logs ? [1] : []
+      content {
+        include_cookies = var.log_cookies
+        bucket          = var.access_logs_bucket
+        prefix          = var.domain
+      }
+    }
+
     // We are using cloudfront for routing only, we dont want to cache anything.
     min_ttl     = 0
     default_ttl = 0
