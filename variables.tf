@@ -42,7 +42,7 @@ variable "default_cache_behavior" {
 
 variable "aliases" {
   type        = list(string)
-  description = "Aliases used by the CloudFront distribution."
+  description = "Aliases used by the CloudFront distribution. If none are set the supplied domain is used as the alias"
   default     = []
 }
 
