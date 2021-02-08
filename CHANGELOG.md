@@ -1,3 +1,11 @@
+# [1.2.0](http://bitbucket.org/adaptavistlabs/module-aws-cloudfront-router/compare/v1.1.2...v1.2.0) (2021-02-08)
+
+
+### Features
+
+* **log:** Added logging config ([7b20585](http://bitbucket.org/adaptavistlabs/module-aws-cloudfront-router/commits/7b2058559f3db4280d7592027987180e6ab5ac0a))
+* **log:** Added logging config ([fe37398](http://bitbucket.org/adaptavistlabs/module-aws-cloudfront-router/commits/fe37398583dd5ec65fbaaf9fc944aa2ac64b4dcc))
+
 ## [1.1.2](http://bitbucket.org/adaptavistlabs/module-aws-cloudfront-router/compare/v1.1.1...v1.1.2) (2021-01-07)
 
 
