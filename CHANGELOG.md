@@ -1,3 +1,10 @@
+# [1.3.0](http://bitbucket.org/adaptavistlabs/module-aws-cloudfront-router/compare/v1.2.0...v1.3.0) (2021-02-08)
+
+
+### Features
+
+* making aliases default to CF router domain ([03c0554](http://bitbucket.org/adaptavistlabs/module-aws-cloudfront-router/commits/03c05541b3e220cd735d6ba646986500e6c4dd01))
+
 # [1.2.0](http://bitbucket.org/adaptavistlabs/module-aws-cloudfront-router/compare/v1.1.2...v1.2.0) (2021-02-08)
 
 
